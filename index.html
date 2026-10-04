@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Buenos días mi borreguita 🐑💖</title>
+  <link rel="icon" href="img/borreguita.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&family=Caveat:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Fondo animado -->
+  <div class="bg-dots"></div>
+  <div class="clouds" aria-hidden="true">
+    <span class="cloud c1"></span><span class="cloud c2"></span><span class="cloud c3"></span><span class="cloud c4"></span>
+  </div>
+  <div id="falling" aria-hidden="true"></div>
+
+  <!-- Personajes flotando -->
+  <div class="floaters" aria-hidden="true">
+    <img src="img/pompompurin.png" class="floater f-purin" alt="" />
+    <img src="img/mymelody.png" class="floater f-melody sticker" alt="" />
+    <img src="img/cinnamoroll_picnic.png" class="floater f-cinna sticker" alt="" />
+    <img src="img/borreguita.png" class="floater f-sheep" alt="" />
+  </div>
+
+  <!-- Controles fijos -->
+  <button id="music-btn" class="icon-btn music-btn" title="Música">🔇</button>
+  <button id="basket-btn" class="basket-btn" title="Mi canasta de cartas">
+    <img src="img/canasta.png" alt="Canasta" />
+    <span id="basket-count" class="badge hidden">0</span>
+  </button>
+  <audio id="bg-music" src="audio/picnic.mp3" loop preload="auto"></audio>
+
+  <main>
+    <!-- ============ INICIO ============ -->
+    <section id="home" class="screen active">
+      <div class="card home-card">
+        <img src="img/borreguita.png" class="hero-sheep" alt="Borreguita" />
+        <h1 class="title">Buenos días<br /><span>mi borreguita</span> 🐑☀️</h1>
+        <p class="message">
+          OwO mi amor, ¿aún sigues enfermita y mal de la garganta, cielito? 🥺🧣<br />
+          ¿Has podido mimir bien, cielo? 💤<br />
+          ¿Quieres elegir una propuesta? jeje 💕
+        </p>
+        <div class="options">
+          <button class="btn btn-pink" data-go="map-screen">🛍️ Plan de ir a Plaza Río</button>
+          <div class="iphone-slot">
+            <button id="iphone-btn" class="btn btn-blue">📱 Comprar un IPHONE 15 rosa</button>
+          </div>
+          <button class="btn btn-yellow" data-go="letter-screen">💌 Añadir otro plan</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ MAPA ============ -->
+    <section id="map-screen" class="screen">
+      <div class="screen-bg" style="background-image:url('img/sanrio_picnic.jpg')"></div>
+      <button class="back-btn" data-go="home">🐾 Volver</button>
+      <div class="card map-card">
+        <h2 class="subtitle">Nuestra citita en Usera 🗺️💕</h2>
+        <div id="map"></div>
+        <div class="plan-steps">
+          <div class="step" data-place="0"><span class="step-n">1</span><span class="step-emoji">🍔</span><b>Burger King</b><small>Comidita rica en Marcelo Usera</small></div>
+          <div class="step" data-place="1"><span class="step-n">2</span><span class="step-emoji">🛍️</span><b>Plaza Río 2</b><small>A mirar ropita juntitos</small></div>
+          <div class="step" data-place="2"><span class="step-n">3</span><span class="step-emoji">☕</span><b>Starbucks</b><small>Algo calentito para la garganta</small></div>
+        </div>
+        <h3 class="question">¿Vamos, mi borreguita? 🥺</h3>
+        <div class="yes-no-area" id="yes-no-area">
+          <button id="yes-btn" class="btn btn-pink big">¡Vamos! 💖</button>
+          <button id="no-btn" class="btn btn-gray">No 🙅‍♀️</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CARTA ============ -->
+    <section id="letter-screen" class="screen">
+      <div class="screen-bg" style="background-image:url('img/cinnamoroll_picnic.png')"></div>
+      <button class="back-btn" data-go="home">🐾 Volver</button>
+
+      <div id="envelope-stage" class="envelope-stage">
+        <p class="hint">Toca la cartita 💌</p>
+        <div id="envelope" class="envelope">
+          <img src="img/sobre.png" alt="Carta" />
+        </div>
+      </div>
+
+      <div id="sheet" class="sheet hidden">
+        <div class="sheet-deco">🌸 🐑 🎀</div>
+        <label class="sheet-label" for="plan-title">Título</label>
+        <input id="plan-title" class="sheet-title" type="text" maxlength="80" placeholder="Ej: Ir a ver una peli 🎬" />
+        <label class="sheet-label" for="plan-text">Mi plan</label>
+        <textarea id="plan-text" class="sheet-text" rows="3" placeholder="Escribe aquí tu plan, mi amor…"></textarea>
+        <button id="save-btn" class="btn btn-pink">💾 Guardar plan</button>
+        <p id="save-status" class="save-status"></p>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ CANASTA ============ -->
+  <div id="basket-panel" class="overlay hidden">
+    <div class="panel">
+      <button class="close-btn" id="basket-close">✖</button>
+      <h2 class="subtitle">🧺 Mi canasta de planes</h2>
+      <p class="panel-info">
+        Puedes descargar la carta (será un documento <b>"carta.html"</b>) y enviar ese <b>"carta.html"</b> por WhatsApp 💌📲
+      </p>
+      <div id="basket-list" class="basket-list"></div>
+    </div>
+  </div>
+
+  <!-- ============ CITA CONFIRMADA ============ -->
+  <div id="date-modal" class="overlay hidden">
+    <div class="panel date-panel">
+      <img src="img/borreguita.png" class="dance" alt="" />
+      <h2 class="title small">¡Es una cita! 🐑💕</h2>
+      <p>Burger King 🍔 → Plaza Río 2 🛍️ → Starbucks ☕<br />Te quiero mucho, mi borreguita 💖</p>
+      <button class="btn btn-pink" id="date-close">Yupiii 🎉</button>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+  <canvas id="confetti" aria-hidden="true"></canvas>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="script.js"></script>
+</body>
+</html>
